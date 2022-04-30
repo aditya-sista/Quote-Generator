@@ -7,21 +7,19 @@ const loader = document.getElementById("loader");
 
 let apiQuotes = [];
 
-// Show loading
-function loading() {
+function hideQuoteAndShowLoadingSpinner() {
   loader.hidden = false;
   quoteContainer.hidden = true;
 }
 
-// Hide loading
-function complete() {
+function showQuoteAndRemoveLoadingSpinner() {
   loader.hidden = true;
   quoteContainer.hidden = false;
 }
 
 // Show new quote
 function newQuote() {
-  complete();
+  showQuoteAndRemoveLoadingSpinner();
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
   if (!quote.author) {
     quoteText.textContent = "Unknown";
@@ -35,12 +33,12 @@ function newQuote() {
     quoteText.classList.remove("long-quote");
   }
   quoteText.textContent = quote.text;
-  complete();
+  showQuoteAndRemoveLoadingSpinner();
 }
 
 // Get Quotes from API
 async function getQuotes() {
-  loading();
+  hideQuoteAndShowLoadingSpinner();
   const proxyUrl = "http://api.allorigins.win/get?url=";
   const apiUrl = "https://type.fit/api/quotes";
   try {
