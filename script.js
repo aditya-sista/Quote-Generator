@@ -21,7 +21,7 @@ function complete() {
 
 // Show new quote
 function newQuote() {
-  loading();
+  complete();
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
   if (!quote.author) {
     quoteText.textContent = "Unknown";
@@ -41,10 +41,12 @@ function newQuote() {
 // Get Quotes from API
 async function getQuotes() {
   loading();
+  const proxyUrl = "http://api.allorigins.win/get?url=";
   const apiUrl = "https://type.fit/api/quotes";
   try {
-    const response = await fetch(apiUrl);
-    apiQuotes = await response.json();
+    const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+    let data = await response.json();
+    apiQuotes = JSON.parse(data.contents);
     newQuote();
   } catch (error) {}
 }
